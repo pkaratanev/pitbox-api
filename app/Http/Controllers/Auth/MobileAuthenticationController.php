@@ -15,7 +15,7 @@ class MobileAuthenticationController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'device_name' => 'required',
+            'deviceID' => 'required',
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -26,7 +26,7 @@ class MobileAuthenticationController extends Controller
             ]);
         }
 
-        return $this->generateToken($user, $request->device_name);
+        return $this->generateToken($user, $request->deviceID);
     }
 
     public function register(Request $request)
@@ -34,7 +34,7 @@ class MobileAuthenticationController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'device_name' => 'required',
+            'deviceID' => 'required',
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -45,7 +45,7 @@ class MobileAuthenticationController extends Controller
             ]);
         }
 
-        return $this->generateToken($user, $request->device_name);
+        return $this->generateToken($user, $request->deviceID);
     }
 
     protected function generateToken(User $user, string $deviceName)
