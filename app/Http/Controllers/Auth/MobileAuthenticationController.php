@@ -15,7 +15,6 @@ class MobileAuthenticationController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'deviceID' => 'required',
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -26,7 +25,7 @@ class MobileAuthenticationController extends Controller
             ]);
         }
 
-        return $this->generateToken($user, $request->deviceID);
+        return $this->generateToken($user);
     }
 
     public function register(Request $request)
@@ -34,22 +33,25 @@ class MobileAuthenticationController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'deviceID' => 'required',
+            'confirm_password' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if ($request->password !== $request->confirm_password) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+                'confirm_password' => ['The passwords don\'t match.'],
             ]);
         }
 
-        return $this->generateToken($user, $request->deviceID);
+        $user = User::create([
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return $this->generateToken($user);
     }
 
-    protected function generateToken(User $user, string $deviceName)
+    protected function generateToken(User $user)
     {
-        return $user->createToken($deviceName)->plainTextToken;
+        return $user->createToken($user->email)->plainTextToken;
     }
 }
