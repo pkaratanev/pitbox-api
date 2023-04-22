@@ -25,7 +25,10 @@ class MobileAuthenticationController extends Controller
             ]);
         }
 
-        return $this->generateToken($user);
+        return response([
+            'user' => $user,
+            'apiKey' => $this->generateToken($user)
+        ]);
     }
 
     public function register(Request $request)
