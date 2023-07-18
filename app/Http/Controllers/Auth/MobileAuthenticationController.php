@@ -50,7 +50,10 @@ class MobileAuthenticationController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return $this->generateToken($user);
+        return response([
+            'user' => $user,
+            'apiKey' => $this->generateToken($user)
+        ]);
     }
 
     protected function generateToken(User $user)
