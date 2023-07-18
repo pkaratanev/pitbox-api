@@ -34,7 +34,7 @@ class MobileAuthenticationController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'confirm_password' => 'required',
         ]);
