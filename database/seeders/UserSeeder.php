@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Garage;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -21,17 +22,29 @@ class UserSeeder extends Seeder
             'password' => Hash::make('demo'),
         ])->assignRole('admin');
 
-        User::factory()->create([
+        $mechanicOne = User::factory()->create([
             'name' => 'Mechanic One',
             'email' => 'mechanicOne@pitbox.com',
             'password' => Hash::make('demo'),
         ])->assignRole('mechanic');
 
-        User::factory()->create([
+        $garageOne = Garage::factory()->create([
+            'name' => 'Garage One',
+        ]);
+
+        $mechanicOne->garage()->save($garageOne);
+
+        $mechanicTwo = User::factory()->create([
             'name' => 'Mechanic Two',
             'email' => 'mechanicTwo@pitbox.com',
             'password' => Hash::make('demo'),
         ])->assignRole('mechanic');
+
+        $garageTwo = Garage::factory()->create([
+            'name' => 'Garage Two',
+        ]);
+
+        $mechanicTwo->garage()->save($garageTwo);
 
         User::factory()->create([
             'name' => 'Client One',
