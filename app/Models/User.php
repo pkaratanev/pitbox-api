@@ -27,7 +27,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
-        'cars',
+        'cars' // Cast as json?
     ];
 
     /**
@@ -50,11 +50,17 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     /**
-     * Users Garage
+     * Users Garage if user is owner
      */
     public function garage(): HasOne {
         return $this->hasOne(Garage::class, 'owner_id');
     }
+
+    // Has Many relation favorites to Garages
+
+    // HasMany Relation to Appointments is named Client
+
+    // hasMany relation to review model
 
     public function canAccessPanel(Panel $panel): bool
     {

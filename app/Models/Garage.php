@@ -24,6 +24,7 @@ class Garage extends Model
         'description',
         'lat',
         'lng'
+        // Tags array
     ];
 
     /**
@@ -31,7 +32,9 @@ class Garage extends Model
      *
      * @return BelongsTo
      */
-    public function owner() {
+    public function owner(): BelongsTo {
         return $this->belongsTo(User::class);
     }
+
+    // Relation hasMany to review model
 }

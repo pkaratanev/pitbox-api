@@ -21,7 +21,9 @@ class Appointment extends Model
         // durationType -> day, week, hour
     ];
 
-    // Relation to Client
+    // Relation to Client hasOne?
 
     // Relation to Garage belongsTo
+
+    // Relation to Chat hasOne
 }
