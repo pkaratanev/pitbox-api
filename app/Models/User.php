@@ -62,6 +62,8 @@ class User extends Authenticatable implements FilamentUser
 
     // hasMany relation to review model
 
+    // public sharable appointment history
+
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->hasRole('admin'); // Give access to owners
