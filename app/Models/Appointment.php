@@ -17,8 +17,11 @@ class Appointment extends Model
     protected $fillable = [
         'name',
         'description',
+        // description by mechanic of what was performed
         // datetime
         // durationType -> day, week, hour
+        // parent id system so we have appointment history of changes
+        // status enum -> requested/in progress/completed
     ];
 
     // Relation to Client hasOne?

@@ -11,5 +11,5 @@ class Chat extends Model
 
     // BelongsTo Appointment Relation
 
-
+    // Figure out image attachment important!
 }

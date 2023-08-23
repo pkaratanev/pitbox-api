@@ -11,6 +11,8 @@ class Review extends Model
 
     // has text
 
+    // has 1-5 stars -> calculates to 1.11 in garage page
+
     // belongsTo relation with User model
 
     // belongsTo Garage
