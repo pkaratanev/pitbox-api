@@ -27,7 +27,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
-        'cars' // Cast as json?
+        'cars'
     ];
 
     /**
@@ -47,25 +47,48 @@ class User extends Authenticatable implements FilamentUser
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'cars' => 'json',
     ];
 
     /**
      * Users Garage if user is owner
+     *
+     * @return HasOne
      */
-    public function garage(): HasOne {
+    public function garage(): HasOne
+    {
         return $this->hasOne(Garage::class, 'owner_id');
     }
 
-    // Has Many relation favorites to Garages
+    /**
+     * Users Appointments
+     *
+     * @return BelongsToMany
+     */
+    public function appointments(): belongsToMany
+    {
+        return $this->belongsToMany(Appoitments::class, 'client_id');
+    }
 
-    // HasMany Relation to Appointments is named Client
+    /**
+     * Users Reviews
+     *
+     * @return BelongsToMany
+     */
+    public function reviews(): belongsToMany
+    {
+        return $this->belongsToMany(Review::class, 'client_id');
+    }
 
-    // hasMany relation to review model
+    // TODO: Implement public sharable appointment history
 
-    // public sharable appointment history
-
+    /**
+     * Who has access to admin panel.
+     *
+     * TODO: Add garage owners to admin panel
+     */
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasRole('admin'); // Give access to owners
+        return $this->hasRole('admin');
     }
 }

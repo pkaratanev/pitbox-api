@@ -4,16 +4,39 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Review extends Model
 {
     use HasFactory;
 
-    // has text
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'content',
+        'rating'
+    ];
 
-    // has 1-5 stars -> calculates to 1.11 in garage page
+    /**
+     * Review poster
+     *
+     * @return BelongsTo
+     */
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
-    // belongsTo relation with User model
-
-    // belongsTo Garage
+    /**
+     * Review garage
+     *
+     * @return BelongsTo
+     */
+    public function garage(): BelongsTo
+    {
+        return $this->belongsTo(Garage::class);
+    }
 }

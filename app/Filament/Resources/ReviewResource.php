@@ -2,18 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\GarageResource\Pages;
-use App\Filament\Resources\GarageResource\RelationManagers;
-use App\Models\Garage;
-use Filament\Forms;
+use App\Filament\Resources\ReviewResource\Pages;
+use App\Filament\Resources\ReviewResource\RelationManagers;
+use App\Models\Review;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class GarageResource extends Resource
+class ReviewResource extends Resource
 {
-    protected static ?string $model = Garage::class;
+    protected static ?string $model = Review::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -21,10 +20,7 @@ class GarageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name'),
-                Forms\Components\TextInput::make('address'),
-                Forms\Components\TextArea::make('description'),
-                // TODO: Add lat lng map selector somehow
+                //
             ]);
     }
 
@@ -32,9 +28,8 @@ class GarageResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('address'),
-
+                Tables\Columns\TextColumn::make('content')->limit(50),
+                Tables\Columns\TextColumn::make('rating'),
             ])
             ->filters([
                 //
@@ -62,9 +57,9 @@ class GarageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListGarages::route('/'),
-            'create' => Pages\CreateGarage::route('/create'),
-            'edit' => Pages\EditGarage::route('/{record}/edit'),
+            'index' => Pages\ListReviews::route('/'),
+            'create' => Pages\CreateReview::route('/create'),
+            'edit' => Pages\EditReview::route('/{record}/edit'),
         ];
     }
 }

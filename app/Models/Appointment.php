@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Appointment extends Model
 {
@@ -15,18 +16,35 @@ class Appointment extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'description',
-        // description by mechanic of what was performed
-        // datetime
-        // durationType -> day, week, hour
-        // parent id system so we have appointment history of changes
-        // status enum -> requested/in progress/completed
+        'subject',
+        'request_description',
+        'work_description',
+        'start_datetime',
+        'status',
+
+        // TODO: Implement parent_id column in order to add history of appointment changes
+        // TODO: If parent_id is null the entity is a main appointment otherwise child of other main appointment
     ];
 
-    // Relation to Client hasOne?
+    /**
+     * Appointment client
+     *
+     * @return BelongsTo
+     */
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
-    // Relation to Garage belongsTo
+    /**
+     * Appointment garage
+     *
+     * @return BelongsTo
+     */
+    public function garage(): BelongsTo
+    {
+        return $this->belongsTo(Garage::class);
+    }
 
-    // Relation to Chat hasOne
+    // TODO: Add Relation to chat model
 }

@@ -26,7 +26,7 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')->required(),
                 Forms\Components\TextInput::make('email')->email()->required(),
-                // Add Role Field
+                Forms\Components\Select::make('roles')->relationship(name: 'roles', titleAttribute: 'name')
             ]);
     }
 
@@ -36,6 +36,7 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('roles.name')
             ])
             ->filters([
                 //

@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Garage extends Model
 {
@@ -22,46 +23,63 @@ class Garage extends Model
         'name',
         'address',
         'description',
-        // Json of ppl working here with images and contact data
-        // Main contact data for garage (phone/email/telegram/viber....)
+        'phone',
         'lat',
-        'lng'
-        // Tags array
-        // Works on ENUM -> motorcycle/cars/trucks/bicycles
+        'lng',
+        'tags',
+        'type',
+
+        // TODO: Employees json that have their own contact data
     ];
 
     /**
-     * Shop owner
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'tags' => 'array',
+    ];
+
+    /**
+     * Garage owner
      *
      * @return BelongsTo
      */
-    public function owner(): BelongsTo {
+    public function owner(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
-    // Relation hasMany to review model
-
-    // Work Time System Implementation | Each line for 1 garage
     /**
-     * Schema::create('working_hours', function (Blueprint $table) {
-     * $table->bigIncrements('id');
-     * $table->time('sunday_open');
-     * $table->time('sunday_close');
-     * $table->time('monday_open');
-     * $table->time('monday_close');
-     * $table->time('tuesday_open');
-     * $table->time('tuesday_close');
-     * $table->time('wednesday_open');
-     * $table->time('wednesday_close');
-     * $table->time('thursday_open');
-     * $table->time('thursday_close');
-     * $table->time('friday_open');
-     * $table->time('friday_close');
-     * $table->time('saturday_open');
-     * $table->time('saturday_close');
-     * $table->timestamps();
-     * });
+     * Garage appointments
+     *
+     * @return HasMany
      */
-    // Also add non working days as dates.
-    // Should default to holidays for each year API maybe but for now hand entered in config
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+    /**
+     * Garage reviews
+     *
+     * @return HasMany
+     */
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    /**
+     * Garage Working Hours
+     *
+     * @return HasOne
+     */
+    public function workingHours(): HasOne
+    {
+        return $this->hasOne(WorkingHours::class);
+    }
+
+    // TODO: Implement holidays in working hours system
 }
