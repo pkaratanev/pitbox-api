@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enum\GarageTypeEnum;
 use App\Filament\Resources\GarageResource\Pages;
 use App\Filament\Resources\GarageResource\RelationManagers;
 use App\Models\Garage;
@@ -24,6 +25,12 @@ class GarageResource extends Resource
                 Forms\Components\TextInput::make('name'),
                 Forms\Components\TextInput::make('address'),
                 Forms\Components\TextArea::make('description'),
+                Forms\Components\Select::make('owner')
+                    ->relationship(name: 'owner', titleAttribute: 'name')
+                    ->searchable(),
+                Forms\Components\Select::make('type')
+                    ->options(GarageTypeEnum::cases()),
+                Forms\Components\TextInput::make('phone'),
                 // TODO: Add lat lng map selector somehow
             ]);
     }
@@ -36,6 +43,7 @@ class GarageResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('address'),
                 Tables\Columns\TextColumn::make('owner.name'),
+                Tables\Columns\TextColumn::make('type'),
             ])
             ->filters([
                 //

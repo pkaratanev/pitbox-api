@@ -23,7 +23,7 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')->required(),
                 Forms\Components\TextInput::make('email')->email()->required(),
-                Forms\Components\Select::make('roles')->relationship(name: 'roles', titleAttribute: 'name')
+                Forms\Components\Select::make('roles')->relationship(name: 'roles', titleAttribute: 'name'),
             ]);
     }
 
@@ -34,7 +34,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('roles.name')
+                Tables\Columns\TextColumn::make('roles.name'),
+                Tables\Columns\TextColumn::make('garage.name'),
             ])
             ->filters([
                 //
