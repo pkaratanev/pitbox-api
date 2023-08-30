@@ -28,8 +28,11 @@ class ReviewResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('content')->limit(50),
+                Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('rating'),
+                Tables\Columns\TextColumn::make('content')->limit(50),
+                Tables\Columns\TextColumn::make('client.name'),
+                Tables\Columns\TextColumn::make('garage.name'),
             ])
             ->filters([
                 //

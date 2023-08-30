@@ -6,6 +6,7 @@ use App\Enum\AppointmentStatusEnum;
 use App\Models\Garage;
 use App\Models\Review;
 use App\Models\User;
+use App\Models\WorkingHours;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -66,6 +67,9 @@ class UserSeeder extends Seeder
             'name' => 'Garage One',
         ]);
 
+        $workingHoursOne = WorkingHours::factory()->make();
+        $garageOne->workingHours()->save($workingHoursOne);
+
         $mechanicOne->garage()->save($garageOne);
 
         Review::factory()->count(5)->for($clientOne, 'client')->for($garageOne, 'garage')->create();
@@ -90,6 +94,9 @@ class UserSeeder extends Seeder
         $garageTwo = Garage::factory()->create([
             'name' => 'Garage Two',
         ]);
+
+        $workingHoursTwo = WorkingHours::factory()->make();
+        $garageTwo->workingHours()->save($workingHoursTwo);
 
         $mechanicTwo->garage()->save($garageTwo);
 

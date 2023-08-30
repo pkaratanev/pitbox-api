@@ -28,6 +28,7 @@ class AppointmentResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('subject'),
                 Tables\Columns\TextColumn::make('request_description'),
                 Tables\Columns\TextColumn::make('work_description'),
@@ -39,7 +40,9 @@ class AppointmentResource extends Resource
                         'requested' => 'gray',
                         'in_progress' => 'warning',
                         'completed' => 'success',
-                    })
+                    }),
+                Tables\Columns\TextColumn::make('client.name'),
+                Tables\Columns\TextColumn::make('garage.name'),
             ])
             ->filters([
                 //

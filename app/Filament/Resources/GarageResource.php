@@ -32,9 +32,10 @@ class GarageResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('address'),
-
+                Tables\Columns\TextColumn::make('owner.name'),
             ])
             ->filters([
                 //
