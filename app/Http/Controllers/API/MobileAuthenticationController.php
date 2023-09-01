@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 
 class MobileAuthenticationController extends Controller
@@ -31,6 +31,11 @@ class MobileAuthenticationController extends Controller
         ]);
     }
 
+    protected function generateToken(User $user)
+    {
+        return $user->createToken($user->email)->plainTextToken;
+    }
+
     public function register(Request $request)
     {
         $request->validate([
@@ -54,10 +59,5 @@ class MobileAuthenticationController extends Controller
             'user' => $user,
             'apiKey' => $this->generateToken($user)
         ]);
-    }
-
-    protected function generateToken(User $user)
-    {
-        return $user->createToken($user->email)->plainTextToken;
     }
 }

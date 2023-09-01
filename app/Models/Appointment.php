@@ -49,5 +49,7 @@ class Appointment extends Model implements HasMedia
         return $this->belongsTo(Garage::class);
     }
 
+    // TODO: Add Relation to car model
+
     // TODO: Add Relation to chat model
 }

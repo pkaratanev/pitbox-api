@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\GarageController;
+use App\Http\Controllers\API\MobileAuthenticationController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GarageController;
-use App\Http\Controllers\Auth\MobileAuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +18,6 @@ use App\Http\Controllers\Auth\MobileAuthenticationController;
 Route::post('/login', [MobileAuthenticationController::class, 'login'])->name('login');
 Route::post('/register', [MobileAuthenticationController::class, 'register'])->name('register');;
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/garages', [GarageController::class, 'index'])->name('garages.index');
 });
-
-Route::middleware(['auth:sanctum'])->get('/garages', [GarageController::class, 'index'])->name('garages.index');
