@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Enum\AppointmentStatusEnum;
 use App\Filament\Resources\AppointmentResource\Pages;
 use App\Filament\Resources\AppointmentResource\RelationManagers;
 use App\Models\Appointment;
+use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -14,13 +16,20 @@ class AppointmentResource extends Resource
 {
     protected static ?string $model = Appointment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('subject'),
+                Forms\Components\DateTimePicker::make('start_datetime'),
+                Forms\Components\TextArea::make('request_description'),
+                Forms\Components\TextArea::make('work_description'),
+                Forms\Components\Select::make('type')
+                    ->options(array_column(AppointmentStatusEnum::cases(), 'value')),
+                Forms\Components\Select::make('client')->relationship(name: 'client', titleAttribute: 'name'),
+                Forms\Components\Select::make('garage')->relationship(name: 'garage', titleAttribute: 'name')
             ]);
     }
 

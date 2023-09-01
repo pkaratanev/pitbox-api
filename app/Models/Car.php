@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Review extends Model
+class Car extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -16,27 +18,21 @@ class Review extends Model
      * @var array
      */
     protected $fillable = [
-        'content',
-        'rating',
+        'make',
+        'model',
+        'modification',
+        'year',
+        'vin',
+        'engine_information'
     ];
 
     /**
-     * Review poster
+     * Car owner
      *
      * @return BelongsTo
      */
-    public function client(): BelongsTo
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Review garage
-     *
-     * @return BelongsTo
-     */
-    public function garage(): BelongsTo
-    {
-        return $this->belongsTo(Garage::class);
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enum\AppointmentStatusEnum;
+use App\Models\Car;
 use App\Models\Garage;
 use App\Models\Review;
 use App\Models\User;
@@ -36,11 +37,15 @@ class UserSeeder extends Seeder
             'password' => Hash::make('demo'),
         ])->assignRole('client');
 
+        Car::factory()->count(3)->for($clientOne, 'owner')->create();
+
         $clientTwo = User::factory()->create([
             'name' => 'Client Two',
             'email' => 'clientTwo@pitbox.com',
             'password' => Hash::make('demo'),
         ])->assignRole('client');
+
+        Car::factory()->count(3)->for($clientTwo, 'owner')->create();
 
         User::factory()->create([
             'name' => 'Client Three',

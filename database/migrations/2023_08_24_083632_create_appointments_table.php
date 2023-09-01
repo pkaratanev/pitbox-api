@@ -5,8 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,6 +18,7 @@ return new class extends Migration
             $table->longText('work_description')->nullable();
             $table->dateTime('start_datetime');
             $table->enum('status', array_column(AppointmentStatusEnum::cases(), 'value'));
+            $table->timestamps();
 
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')
@@ -30,7 +30,6 @@ return new class extends Migration
                 ->references('id')
                 ->on('garages')
                 ->onDelete('cascade');
-            $table->timestamps();
         });
     }
 

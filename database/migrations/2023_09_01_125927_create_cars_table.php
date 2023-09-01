@@ -1,6 +1,5 @@
 <?php
 
-use App\Enum\GarageTypeEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,16 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('garages', function (Blueprint $table) {
+        Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('address')->nullable();
-            $table->longText('description')->nullable();
-            $table->decimal('lat')->nullable();
-            $table->decimal('lng')->nullable();
-            $table->longText('tags')->nullable();
-            $table->enum('type', array_column(GarageTypeEnum::cases(), 'value'));
-            $table->string('phone')->nullable();
+            $table->string('make')->nullable();
+            $table->string('model')->nullable();
+            $table->string('modification')->nullable();
+            $table->year('year')->nullable();
+            $table->string('vin');
+            $table->longText('engine_information')->nullable();
 
             $table->unsignedBigInteger('owner_id')->nullable();
             $table->foreign('owner_id')
@@ -35,6 +32,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('garages');
+        Schema::dropIfExists('cars');
     }
 };

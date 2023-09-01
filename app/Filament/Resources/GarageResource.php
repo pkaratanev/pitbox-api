@@ -6,17 +6,21 @@ use App\Enum\GarageTypeEnum;
 use App\Filament\Resources\GarageResource\Pages;
 use App\Filament\Resources\GarageResource\RelationManagers;
 use App\Models\Garage;
+use Cheesegrits\FilamentGoogleMaps\Fields\Map;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 
 class GarageResource extends Resource
 {
     protected static ?string $model = Garage::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
+
+    protected static ?string $navigationGroup = 'Garages';
 
     public static function form(Form $form): Form
     {
@@ -24,14 +28,23 @@ class GarageResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name'),
                 Forms\Components\TextInput::make('address'),
-                Forms\Components\TextArea::make('description'),
+                Forms\Components\Select::make('type')
+                    ->options(array_column(GarageTypeEnum::cases(), 'value')),
                 Forms\Components\Select::make('owner')
                     ->relationship(name: 'owner', titleAttribute: 'name')
                     ->searchable(),
-                Forms\Components\Select::make('type')
-                    ->options(GarageTypeEnum::cases()),
+                Forms\Components\TextArea::make('description'),
                 Forms\Components\TextInput::make('phone'),
-                // TODO: Add lat lng map selector somehow
+                Forms\Components\SpatieMediaLibraryFileUpload::make('photos')
+                    ->collection('garage_photos')
+                    ->reorderable()
+                    ->multiple(),
+                Map::make('location')
+                    ->defaultZoom(7)
+                    ->geolocate()
+                    ->clickable(true)
+                    ->draggable()
+                    ->defaultLocation([42.660821, 25.150656]),
             ]);
     }
 
@@ -49,7 +62,17 @@ class GarageResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Action::make('visit')
+                    ->url(function (Garage $garage) {
+                        return "https://www.google.com/maps/place/{$garage->location['lat']},{$garage->location['lng']}";
+                    })
+                    ->tooltip('View Garage Location')
+                    ->openUrlInNewTab()
+                    ->icon('heroicon-m-map-pin')
+                    ->iconButton(),
+                Tables\Actions\EditAction::make()
+                    ->tooltip('Edit Garage')
+                    ->iconButton(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

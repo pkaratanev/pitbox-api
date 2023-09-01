@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -27,7 +29,6 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
-        'cars'
     ];
 
     /**
@@ -47,8 +48,17 @@ class User extends Authenticatable implements FilamentUser
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'cars' => 'json',
     ];
+
+    /**
+     * Users Cars
+     *
+     * @return HasMany
+     */
+    public function cars(): HasMany
+    {
+        return $this->hasMany(Car::class);
+    }
 
     /**
      * Users Garage if user is owner
@@ -85,7 +95,10 @@ class User extends Authenticatable implements FilamentUser
     /**
      * Who has access to admin panel.
      *
-     * TODO: Add garage owners to admin panel
+     * TODO: Add garage owners to admin panel somehow
+     *
+     * @param Panel $panel
+     * @return Bool
      */
     public function canAccessPanel(Panel $panel): bool
     {

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\Garage;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,7 +16,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
     {
@@ -24,6 +25,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('name')->required(),
                 Forms\Components\TextInput::make('email')->email()->required(),
                 Forms\Components\Select::make('roles')->relationship(name: 'roles', titleAttribute: 'name'),
+                Forms\Components\Select::make('garage')->options(Garage::all()->pluck('name', 'id')),
             ]);
     }
 

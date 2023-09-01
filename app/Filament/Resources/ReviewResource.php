@@ -12,15 +12,28 @@ use Filament\Tables\Table;
 
 class ReviewResource extends Resource
 {
+    const RATING_LABELS = [
+        1 => '★',
+        2 => '★★',
+        3 => '★★★',
+        4 => '★★★★',
+        5 => '★★★★★',
+    ];
+
     protected static ?string $model = Review::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-bottom-center-text';
+
+    protected static ?string $navigationGroup = 'Garages';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Textarea::make('content'),
+                Forms\Components\Select::make('rating')->options(self::RATING_LABELS),
+                Forms\Components\Select::make('client')->relationship(name: 'client', titleAttribute: 'name'),
+                Forms\Components\Select::make('garage')->relationship(name: 'garage', titleAttribute: 'name')
             ]);
     }
 
@@ -29,7 +42,7 @@ class ReviewResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('rating'),
+                Tables\Columns\TextColumn::make('rating')->formatStateUsing(fn(string $state): string => self::RATING_LABELS[$state]),
                 Tables\Columns\TextColumn::make('content')->limit(50),
                 Tables\Columns\TextColumn::make('client.name'),
                 Tables\Columns\TextColumn::make('garage.name'),
